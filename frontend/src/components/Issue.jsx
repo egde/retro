@@ -25,6 +25,7 @@ class Issue extends Component {
         
         const id = this.props.name;
         this.props.onFocusOut(id);
+        this.setState({mode:'READ'});
     }
     
     
@@ -71,20 +72,24 @@ class Issue extends Component {
         this.setState({mode:'READ'});
     }
     
+    onMouseLeaveSelect = () => {
+        setTimeout(this.onMouseLeave, 2000);
+    }
+    
     render() {
         return (
-            <div id={"issue-"+this.props.issue.id} className="box draggable" draggable>
+            <div id={"issue-"+this.props.issue.id} className="box">
                 
                 <div className="field">
                     <div className="control">
                         {
                             this.state.mode === 'READ' && (
-                                <p onMouseOver={this.onMouseOver}>{this.props.issue.text}</p>
+                                <p className="retro-textarea-readOnly" name="text" onMouseOver={this.onMouseOver}>{this.props.issue.text}</p>
                                 )
                         }
                         {
                             this.state.mode === 'EDIT' && (
-                                <textarea className="textarea has-fixed-size" name="text" value={this.props.issue.text} onChange={this.handleChange} onBlur={this.onFocusOut} onMouseLeave={this.onMouseLeave}/>
+                                <textarea className="textarea has-fixed-size" name="text" value={this.props.issue.text} onChange={this.handleChange} onBlur={this.onFocusOut}/>
                                 )
                         }
                     </div>
@@ -93,13 +98,13 @@ class Issue extends Component {
                     <div className="control">
                     {
                             this.state.mode === 'READ' && (
-                                <p onMouseOver={this.onMouseOver}>{this.props.issue.state}</p>
+                                <p className="retro-select-readOnly" onMouseOver={this.onMouseOver}>{this.props.issue.state}</p>
                                 )
                     }
                     {
                         this.state.mode === 'EDIT' && (
                             <div className="select">
-                                <select name="state" onChange={this.handleChange} value={this.props.issue.state} onBlur={this.onFocusOut} onMouseLeave={this.onMouseLeave}>
+                                <select name="state" onChange={this.handleChange} value={this.props.issue.state} onBlur={this.onFocusOut} onMouseLeave={ this.onMouseLeaveSelect }>
                                     {
                                         this.props.states.map((state, ind) => {
                                             return (

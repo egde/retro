@@ -1,0 +1,18 @@
+.retro-textarea-readOnly {
+    background-color: #fff;
+    color: #363636;
+    width: 100%;
+    min-height: 120px;
+    max-height: 600px;
+    resize: none;
+    display: block;
+    max-width: 100%;
+    min-width: 100%;
+    padding: .625em;
+}
+
+.retro-select-readOnly {
+    padding-right: 2.5em;
+    padding: calc(.375em - 1px) calc(.625em - 1px);
+    height: 2.25em;
+}
