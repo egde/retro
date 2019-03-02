@@ -19,6 +19,13 @@ const Actions = {
             type: BoardActionTypes.ADD_BOARD,
             board
         })
+    },
+    addBoardUser(boardId, userId) {
+        dispatcher.dispatch({
+            type: BoardActionTypes.ADD_BOARD_USER,
+            boardId,
+            userId
+        })
     }
 }
 

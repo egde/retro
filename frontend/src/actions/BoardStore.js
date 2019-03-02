@@ -55,6 +55,15 @@ class BoardStore extends EventEmitter{
             });
     }
 
+    addBoardUser(boardId, userId) {
+        axios.post('/api/boards/'+boardId+'/users', {userId: userId})
+            .then((res) => {
+                this.emit(EventTypes.ADD_BOARD_USER_COMPLETED);   
+            })
+            .catch((err)=>{
+                console.log(err);
+            });
+    }
 
     handleActions(action) {
         switch(action.type) {
@@ -74,10 +83,17 @@ class BoardStore extends EventEmitter{
                 break;
             case ActionTypes.ADD_BOARD:
                 if(!action.board) {
-                    this.emit(EventEmitter.LOAD_BOARDS_COMPLETED);
+                    this.emit(EventTypes.LOAD_BOARD_COMPLETED);
                     break;
                 }
                 this.addBoard(action.board);
+                break;
+            case ActionTypes.ADD_BOARD_USER:
+                if(!action.boardId || !action.userId) {
+                    this.emit(EventTypes.ADD_BOARD_USER_COMPLETED);
+                    break;
+                }
+                this.addBoardUser(action.boardId, action.userId);
                 break;
             default:
                 return;

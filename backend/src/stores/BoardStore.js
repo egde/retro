@@ -28,7 +28,10 @@ class BoardStore {
                              return this.boards[key];
                         });
         var results = entries.filter((b) => {
-            return b.userId === userId
+            var found = b.users.find((user) => {
+                return user.userId === userId
+            });
+            return found != null;
         })
         
         return results.length == 0 ? null : results;

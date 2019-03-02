@@ -45,6 +45,23 @@ router.get("/:boardId", (req,res) => {
     res.end();
 });
 
+router.post("/:boardId/users", (req, res) => {
+    if (!req.params.boardId) {
+        throw new Error("Board ID required")
+    }
+    var board = boardStore.getBoard(req.params.boardId);
+    if (!board) {
+        res.status(404);
+    }
+    const user = req.body;
+    if (!user) {
+        throw new Error("A user object is missing here!");
+    }
+    board.users.push(user);
+    res.send(board.users);
+    res.end();
+});
+
 router.delete("/:boardId", (req, res) => {
     if (!req.params.boardId) {
         throw new Error("Board ID required");

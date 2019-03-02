@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {withCookies} from 'react-cookie';
+import v4 from 'uuid/v4';
+
 import Issue from '../components/Issue.jsx';
 import IssueEntity from '../entities/Issue.js';
 
@@ -15,11 +18,19 @@ class Board extends Component {
     constructor(props) {
         super(props)
         
+        const { cookies } = props;
+        let userId = cookies.get('uuid');
+        if (!userId) {
+            userId = v4();
+            cookies.set('uuid', userId)
+        }
+
         this.state = {
             board : {
             },
             issues : [
-            ]
+            ],
+            userId : userId
         }
         this.handleChange = this.handleChange.bind(this);
         this.addIssue = this.addIssue.bind(this);
@@ -31,11 +42,13 @@ class Board extends Component {
     
     componentWillMount() {
         BoardStore.on(BoardEventTypes.LOAD_BOARD_COMPLETED, this.setBoard);
+        BoardStore.on(BoardEventTypes.ADD_BOARD_USER_COMPLETED, this.addBoardUserCompleted);
         IssueStore.on(IssueEventTypes.LOAD_ISSUES_COMPLETED, this.setIssues);
     }
 
     componentWillUnmount() {
         BoardStore.removeListener(BoardEventTypes.LOAD_BOARD_COMPLETED, this.setBoard);
+        BoardStore.removeListener(BoardEventTypes.ADD_BOARD_USER_COMPLETED, this.addBoardUserCompleted);
         IssueStore.removeListener(IssueEventTypes.LOAD_ISSUES_COMPLETED, this.setIssues);
     }
 
@@ -45,6 +58,11 @@ class Board extends Component {
         IssueActions.loadIssues(boardId);
     }
     
+    addBoardUserCompleted = () => {
+        const boardId = this.props.match.params.id;
+        BoardActions.loadBoard(boardId);
+    }
+
     setBoard() {
         this.setState({board: BoardStore.getBoard()});
     }
@@ -77,6 +95,17 @@ class Board extends Component {
         
     }
     
+    isUserInBoard = () => {
+        const board = this.state.board;
+        const userId = this.state.userId;
+
+        const found = board.users.find((u) => {
+            return u.userId === userId
+        });
+
+        return !found ? false : true;
+    }
+
     addIssue(e) {
         const state = e.target.name;
         var issues = this.state.issues;
@@ -85,6 +114,9 @@ class Board extends Component {
         issue.state = state;
         
         issues.push(issue);
+        if (!this.isUserInBoard()) {
+            BoardActions.addBoardUser(issue.boardId, this.state.userId);
+        }
         this.setState({issues:issues});
     }
     
@@ -161,4 +193,4 @@ class Board extends Component {
    
 }
 
-export default Board;
+export default withCookies(Board);

@@ -6,6 +6,7 @@ import v4 from 'uuid/v4';
 import BoardActions from '../actions/BoardActions';
 import BoardStore from '../actions/BoardStore';
 import { EventTypes } from '../actions/BoardActionTypes';
+import BoardEntity from '../entities/Board';
 
 class BoardOverview extends Component {
     constructor(props) {
@@ -50,10 +51,8 @@ class BoardOverview extends Component {
     }
     
     addBoard() {
-        var b = {};
-        b.title = "";
+        var b = new BoardEntity();
         b.ownerId = this.state.userId;
-        b.states = ['Smile', 'Frown', 'Improve'];
         
         this.setState({
             board: b,
