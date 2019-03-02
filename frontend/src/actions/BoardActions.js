@@ -2,10 +2,10 @@ import BoardActionTypes from './BoardActionTypes';
 import dispatcher from '../Dispatcher';
 
 const Actions = {
-    loadBoards(ownerId) {
+    loadBoards(userId) {
         dispatcher.dispatch({
             type: BoardActionTypes.LOAD_BOARDS,
-            ownerId
+            userId
         });
     },
     loadBoard(boardId) {

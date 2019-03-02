@@ -3,7 +3,31 @@ var router = express.Router();
 var boardStore = require('./stores/BoardStore');
 
 router.get("/", (req,res) => {
-    var result = boardStore.getAll();
+    ownerId = req.query.ownerId;
+    userId = req.query.userId;
+    
+    var result = [];
+    if (!ownerId && !userId) {
+        let v = boardStore.getAll();
+        if (v != null) {
+            result = result.concat(v);
+        }
+    }
+
+    if (ownerId) {
+        let v = boardStore.getByOwnerId(ownerId);
+        if (v != null) {
+            result = result.concat(v);
+        }
+    }
+
+    if (userId) {
+        let v = boardStore.getByUserId(userId);
+        if (v != null) {
+            result = result.concat(v);
+        }
+    }
+
     res.send(result);
     res.end();
 });

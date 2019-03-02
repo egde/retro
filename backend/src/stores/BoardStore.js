@@ -9,7 +9,29 @@ class BoardStore {
         var entries = Object.keys(this.boards).map((key) => {
                              return this.boards[key];
                         });
-        return entries;
+        return entries.length == 0 ? null : entries;
+    }
+
+    getByOwnerId(ownerId) {
+        var entries = Object.keys(this.boards).map((key) => {
+                             return this.boards[key];
+                        });
+        var results = entries.filter((b) => {
+            return b.ownerId === ownerId
+        })
+
+        return results.length == 0 ? null : results;
+    }
+
+    getByUserId(userId) {
+        var entries = Object.keys(this.boards).map((key) => {
+                             return this.boards[key];
+                        });
+        var results = entries.filter((b) => {
+            return b.userId === userId
+        })
+        
+        return results.length == 0 ? null : results;
     }
     
     saveNewBoard(board) {

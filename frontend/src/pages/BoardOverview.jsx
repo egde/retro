@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {withCookies} from 'react-cookie';
+import v4 from 'uuid/v4';
 
 import BoardActions from '../actions/BoardActions';
 import BoardStore from '../actions/BoardStore';
@@ -8,11 +10,20 @@ import { EventTypes } from '../actions/BoardActionTypes';
 class BoardOverview extends Component {
     constructor(props) {
         super(props);
+
+         
+        const { cookies } = props;
+        let userId = cookies.get('uuid');
+        if (!userId) {
+            userId = v4();
+            cookies.set('uuid', userId)
+        }
+
         this.state = {
             boards : [
             ],
             board : {},
-            ownerId : '123',
+            userId : userId,
             isShowAddBoard:false
         };
         
@@ -31,7 +42,7 @@ class BoardOverview extends Component {
     }
 
     componentDidMount() {
-        BoardActions.loadBoards('xx');
+        BoardActions.loadBoards(this.state.userId);
     }
     
     loadBoards() {
@@ -41,7 +52,7 @@ class BoardOverview extends Component {
     addBoard() {
         var b = {};
         b.title = "";
-        b.ownerId = this.state.ownerId;
+        b.ownerId = this.state.userId;
         b.states = ['Smile', 'Frown', 'Improve'];
         
         this.setState({
@@ -151,4 +162,4 @@ class BoardOverview extends Component {
     
 }
 
-export default BoardOverview;
+export default withCookies(BoardOverview);

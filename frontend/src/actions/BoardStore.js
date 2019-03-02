@@ -18,8 +18,13 @@ class BoardStore extends EventEmitter{
         return this.board;
     }
     
-    loadBoards(ownerId) {
-        axios.get('/api/boards')
+    loadBoards(ownerId, userId) {
+        axios.get('/api/boards', {
+            params: {
+                ownerId : ownerId,
+                userId : userId
+            }
+        })
             .then((res) => {
                     this.boards = res.data;
                     this.emit(EventTypes.LOAD_BOARDS_COMPLETED);
@@ -43,7 +48,7 @@ class BoardStore extends EventEmitter{
     addBoard(board) {
         axios.post('/api/boards',board)
             .then((res) => {
-                this.loadBoards(board.ownerId);        
+                this.loadBoards(board.ownerId, board.ownerId);        
             })
             .catch((err) => {
                 console.log(err);
@@ -54,11 +59,11 @@ class BoardStore extends EventEmitter{
     handleActions(action) {
         switch(action.type) {
             case ActionTypes.LOAD_BOARDS:
-                if (!action.ownerId) {
+                if (!action.userId) {
                     this.emit(EventTypes.LOAD_BOARDS_COMPLETED);
                     break;
                 }
-                this.loadBoards(action.ownerId);
+                this.loadBoards(action.userId, action.userId);
                 break;
             case ActionTypes.LOAD_BOARD:
                 if (!action.boardId) {
