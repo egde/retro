@@ -5,12 +5,16 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "export PORT=8080 && node src/app.js"
+    "start": "export PORT=8080 && node src/app.js",
+    "dev": "export PORT=8080 && nodemon src/app.js"
   },
   "author": "Dennis Egert",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
   }
 }

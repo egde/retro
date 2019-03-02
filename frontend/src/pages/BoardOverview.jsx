@@ -81,7 +81,14 @@ class BoardOverview extends Component {
             <section id="BoardOverview" className="section">
                 <div className="container">
                     <h1 className="title">Boards Overview</h1>
-                    <button className="button is-primary" onClick={this.addBoard}>Add</button>
+                    <div className="level">
+                        <div className="level-left">
+                            <div className="level-item has-text-centered">
+                                <button className="button is-primary" onClick={this.addBoard}>Add</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="container">
                         <div className="tile is-ancestor is-vertical">
                         {
@@ -97,6 +104,7 @@ class BoardOverview extends Component {
                         }
                         </div>
                     </div>
+
                 </div>
                 {
                     this.state.isShowAddBoard && (

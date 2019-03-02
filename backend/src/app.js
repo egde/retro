@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 
 const PORT = process.env.PORT;
 const app = express();
@@ -7,7 +8,7 @@ var boardService = require('./board');
 var issueService = require('./issue');
 var bodyParser = require('body-parser');
 
-app.use('/', express.static('../public'));
+app.use('/', express.static( path.join(__dirname, '../public')));
 app.use(bodyParser.json()); // for parsing application/json
 app.use('/api/boards', boardService);
 app.use('/api/issues', issueService);
