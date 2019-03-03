@@ -1,5 +1,13 @@
 #!/bin/bash
 
+echo "enabling swap file"
+fallocate -l 4G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
+echo "Swap file created"
+
 curl -o- https://deb.nodesource.com/setup_11.x | bash
 
 apt install -y nodejs 
