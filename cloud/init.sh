@@ -48,5 +48,12 @@ echo "Retro backend running"
 cp -f /app/retro/cloud/default /etc/nginx/sites-available/default
 echo "NGINX configured"
 
-sudo systemctl restart nginx
+systemctl restart nginx
 echo "NGINX restarted"
+
+cp /app/retro/cloud/retro.service /etc/systemd/system/retro.service
+
+systemctl daemon-reload
+systemctl enable retro.service
+
+echo "Retro Service installed"

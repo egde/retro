@@ -1,0 +1,10 @@
+[Unit]
+Description=The reboot script for updating the Retro App on reboot
+
+[Service]
+ExecStart=/app/retro/cloud/start.sh
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
