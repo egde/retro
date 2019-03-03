@@ -1,24 +1,23 @@
 #!/bin/bash
 
 curl -o- https://deb.nodesource.com/setup_11.x | bash
-sudo apt update
 
-sudo apt install -y nodejs 
-sudo apt install -y build-essential
+apt install -y nodejs 
+apt install -y build-essential
 echo "NODE installed"
 
-sudo apt install -y nginx
+apt install -y nginx
 echo "NGINX installed"
 
 export PORT=8080
-sudo useradd -M app
-sudo usermod -aG app ubuntu
+useradd -M app
+usermod -aG app ubuntu
 echo "User app created"
 
-sudo mkdir -p /app/retro
-sudo chown -R :app /app/retro
-sudo chmod -R g+rwX /app/retro
-sudo -u app git clone https://github.com/egde/retro /app/retro
+mkdir -p /app/retro
+chown -R ubuntu:app /app/retro
+chmod -R g+rwX /app/retro
+git clone https://github.com/egde/retro /app/retro
 echo "Code downloaded"
 
 cd /app/retro/frontend
@@ -29,10 +28,13 @@ echo "Retro frontend built"
 
 cd /app/retro/backend
 npm install
+
+chown -R app:app /app/retro
+chmod -R g+rwX /app/retro
 echo "Retro backend built"
 
 npm install -g pm2
-pm2 start /app/retro/backend/src/app.js
+sudo -u app pm2 start /app/retro/backend/src/app.js
 echo "Retro backend running"
 
 cp -f /app/retro/cloud/default /etc/nginx/sites-available/default
