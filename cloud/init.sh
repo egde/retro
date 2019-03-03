@@ -10,7 +10,7 @@ apt install -y nginx
 echo "NGINX installed"
 
 export PORT=8080
-useradd -M app
+useradd -m app
 usermod -aG app ubuntu
 echo "User app created"
 
