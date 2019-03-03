@@ -3,8 +3,8 @@
 curl -sL https://deb.nodesource.com/setup_11.x -o nodesource_setup.sh | bash
 sudo apt update
 
-sudo apt install nodejs
-sudo apt install build-essential
+sudo apt install nodejs -y
+sudo apt install build-essential -y
 echo "NODE installed"
 
 sudo apt install nginx -y
