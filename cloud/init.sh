@@ -18,10 +18,11 @@ echo "User app created"
 sudo mkdir -p /app/retro
 sudo chown -R :app /app/retro
 sudo chmod -R g+rwX /app/retro
-sudo git clone https://github.com/egde/retro /app/retro
+sudo -u app git clone https://github.com/egde/retro /app/retro
 echo "Code downloaded"
 
 cd /app/retro/frontend
+npm install -g react-scripts
 npm install
 npm run build
 echo "Retro frontend built"
