@@ -30,6 +30,6 @@ npm install
 npm install -g pm2
 pm2 start /app/retro/backend/src/app.js
 
-mv -f /app/retro/cloud/default /etc/nginx/sites-available/default
+cp -f /app/retro/cloud/default /etc/nginx/sites-available/default
 
 sudo systemctl restart nginx
