@@ -1,14 +1,10 @@
 #!/bin/bash
 
+curl -sL https://deb.nodesource.com/setup_11.x -o nodesource_setup.sh | bash
 sudo apt update
-echo "Update completed"
 
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-. ~/.nvm/nvm.sh
-echo "NVM installed"
-
-nvm install stable
-nvm use stable
+sudo apt install nodejs
+sudo apt install build-essential
 echo "NODE installed"
 
 sudo apt install nginx -y
