@@ -1,13 +1,13 @@
 #!/bin/bash
 
-curl -sL https://deb.nodesource.com/setup_11.x -o nodesource_setup.sh | bash
+curl -o- https://deb.nodesource.com/setup_11.x | bash
 sudo apt update
 
-sudo apt install nodejs -y
-sudo apt install build-essential -y
+sudo apt install -y nodejs 
+sudo apt install -y build-essential
 echo "NODE installed"
 
-sudo apt install nginx -y
+sudo apt install -y nginx
 echo "NGINX installed"
 
 export PORT=8080
