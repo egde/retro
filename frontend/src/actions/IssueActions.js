@@ -13,6 +13,12 @@ const Actions = {
             type: IssueActionTypes.SAVE_ISSUE,
             issue
         })
+    },
+    deleteIssue(issue) {
+        dispatcher.dispatch({
+            type: IssueActionTypes.DELETE_ISSUE,
+            issue
+        })
     }
 }
 

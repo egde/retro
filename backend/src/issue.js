@@ -17,7 +17,7 @@ router.get("/", (req,res) => {
 });
 
 router.get("/:issueId", (req,res) => {
-    if (!req.params.boardId) {
+    if (!req.params.issueId) {
         throw new Error("Issue ID required")
     }
     const issue = issueStore.getIssue(req.params.issueId);
@@ -30,7 +30,7 @@ router.get("/:issueId", (req,res) => {
 });
 
 router.delete("/:issueId", (req, res) => {
-    if (!req.params.boardId) {
+    if (!req.params.issueId) {
         throw new Error("Issue ID required");
     }
     

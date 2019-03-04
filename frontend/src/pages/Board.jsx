@@ -44,12 +44,14 @@ class Board extends Component {
         BoardStore.on(BoardEventTypes.LOAD_BOARD_COMPLETED, this.setBoard);
         BoardStore.on(BoardEventTypes.ADD_BOARD_USER_COMPLETED, this.addBoardUserCompleted);
         IssueStore.on(IssueEventTypes.LOAD_ISSUES_COMPLETED, this.setIssues);
+        IssueStore.on(IssueEventTypes.DELETE_ISSUE_COMPLETED, this.deleteIssueCompleted);
     }
 
     componentWillUnmount() {
         BoardStore.removeListener(BoardEventTypes.LOAD_BOARD_COMPLETED, this.setBoard);
         BoardStore.removeListener(BoardEventTypes.ADD_BOARD_USER_COMPLETED, this.addBoardUserCompleted);
         IssueStore.removeListener(IssueEventTypes.LOAD_ISSUES_COMPLETED, this.setIssues);
+        IssueStore.removeListener(IssueEventTypes.DELETE_ISSUE_COMPLETED, this.deleteIssueCompleted);
     }
 
     componentDidMount() {
@@ -61,6 +63,11 @@ class Board extends Component {
     addBoardUserCompleted = () => {
         const boardId = this.props.match.params.id;
         BoardActions.loadBoard(boardId);
+    }
+
+    deleteIssueCompleted = () => {
+        const boardId = this.props.match.params.id;
+        IssueActions.loadIssues(boardId);
     }
 
     setBoard() {
@@ -84,15 +91,13 @@ class Board extends Component {
     deleteEntry(id) {
         var issues = this.state.issues;
         
-        const ind = issues.findIndex((issue) => {
+        const issue = issues.find((issue) => {
             return issue.id === id;
         });
-        
-        if (ind >= 0) {
-            issues.splice(ind, 1);
-            this.setState({issues: issues});
+
+        if (issue) {
+            IssueActions.deleteIssue(issue);
         }
-        
     }
     
     isUserInBoard = () => {

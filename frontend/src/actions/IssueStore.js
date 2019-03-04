@@ -36,7 +36,7 @@ class IssueStore extends EventEmitter{
             axios.post('/api/issues/'+issue.dbId, issue)
                 .then((res) => {
                     this.loadIssues(issue.boardId);
-                    this.emit(EventEmitter.SAVE_ISSUE_COMPLETED);
+                    this.emit(EventTypes.SAVE_ISSUE_COMPLETED);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -45,12 +45,22 @@ class IssueStore extends EventEmitter{
             axios.post('/api/issues', issue )
                 .then((res) => {
                     this.loadIssues(issue.boardId);
-                    this.emit(EventEmitter.SAVE_ISSUE_COMPLETED);
+                    this.emit(EventTypes.SAVE_ISSUE_COMPLETED);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         }
+    }
+
+    deleteIssue(issue) {
+        axios.delete('/api/issues/'+issue.dbId)
+            .then((res)=> {
+                this.emit(EventTypes.DELETE_ISSUE_COMPLETED);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
 
@@ -65,10 +75,16 @@ class IssueStore extends EventEmitter{
                 break;
             case ActionTypes.SAVE_ISSUE:
                 if(!action.issue) {
-                    this.emit(EventEmitter.SAVE_ISSUE_COMPLETED);
+                    this.emit(EventTypes.SAVE_ISSUE_COMPLETED);
                     break;
                 }
                 this.saveIssue(action.issue);
+                break;
+            case ActionTypes.DELETE_ISSUE:
+                if(!action.issue) {
+                    this.emit(EventTypes.DELETE_ISSUE_COMPLETED);
+                }
+                this.deleteIssue(action.issue);
                 break;
             default:
                 return;
