@@ -27,7 +27,8 @@ class BoardOverview extends Component {
             },
             board : {},
             userId : userId,
-            isShowAddBoard:false
+            isShowAddBoard:false,
+            isShowShareBoard:false
         };
         
         this.addBoard = this.addBoard.bind(this);
@@ -97,7 +98,11 @@ class BoardOverview extends Component {
         BoardActions.addBoard(this.state.board);
         this.setState({isShowAddBoard: false});
     }
-    
+
+    showShareBoard = (e) => {
+        this.setState({isShowShareBoard: true, sharedBoardId : e.target.name})
+    }
+
     render() {
         return (
             <section id="BoardOverview" className="section">
@@ -118,12 +123,27 @@ class BoardOverview extends Component {
                                 return (
                                     <div key={board.id} className="tile is-parent">
                                          <article className="tile is-child notification is-info">
-                                            <Link to={"/board/"+board.id}>
-                                                <span class="icon">
-                                                    <i class="fas fa-user"></i>
-                                                </span>
-                                                {board.title}
-                                            </Link>
+                                         <div className="level">
+                                                <div className="level-left">
+                                                    <div className="level-item">
+                                                        <Link to={"/board/"+board.id}>
+                                                            <span class="icon">
+                                                                <i class="fas fa-user"></i>
+                                                            </span>
+                                                            {board.title}
+                                                        </Link>
+                                                        </div>
+                                                </div>
+                                                <div className="level-right">
+                                                    <div className="level-item">
+                                                        <button className="button is-outlined" name={board.id} onClick={this.showShareBoard}>
+                                                            <span class="icon">
+                                                                <i class="fas fa-share"></i>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </article>
                                     </div>
                                 );
@@ -134,12 +154,18 @@ class BoardOverview extends Component {
                                 return (
                                     <div key={board.id} className="tile is-parent">
                                          <article className="tile is-child notification is-success">
-                                            <Link to={"/board/"+board.id}>
-                                                <span class="icon">
-                                                    <i class="fas fa-pen"></i>
-                                                </span>
-                                                {board.title}
-                                            </Link>
+                                            <div className="level">
+                                                <div className="level-left">
+                                                    <div className="level-item">
+                                                        <Link to={"/board/"+board.id}>
+                                                            <span class="icon">
+                                                                <i class="fas fa-pen"></i>
+                                                            </span>
+                                                            {board.title}
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </article>
                                     </div>
                                 );
@@ -187,6 +213,38 @@ class BoardOverview extends Component {
                     )
                         
                         
+                }
+                {
+                    this.state.isShowShareBoard && (
+                        <div className="modal is-active">
+                            <div className="modal-background"></div>
+                            <div className="modal-content">
+                                <div className="box">
+                                    <article className="content">
+                                        <p className="has-text-centered">Copy the URL below and send it to the members you wish to collaborate!</p>
+                                        <div className="level">
+                                            <div className="level-item">
+                                                <span className="has-text-centered has-text-weight-bold">{window.location.href}board/{this.state.sharedBoardId}</span>
+                                            </div>
+                                            <a className="level-item" aria-label="reply" href={`mailto:?subject=Join a retrospective!&body=Hi,
+                                                please join the retrospective I've created on `+window.location.href+"board/"+this.state.sharedBoardId+`.See you!`}>
+                                                <span className="icon">
+                                                    <i className="fas fa-envelope" aria-hidden="true"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </article>
+                                    
+                                    <div className="level">
+                                        <div className="level-item">
+                                            <button className="button is-primary" onClick={()=>this.setState({isShowShareBoard: false})}>OK</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button className="modal-close is-large" aria-label="close" onClick={()=>this.setState({isShowShareBoard: false})}></button>
+                        </div>
+                    )
                 }
             </section>
         );
