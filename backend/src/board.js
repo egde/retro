@@ -13,18 +13,22 @@ router.get("/", (req,res) => {
             result = result.concat(v);
         }
     }
-
-    if (ownerId) {
-        let v = boardStore.getByOwnerId(ownerId);
-        if (v != null) {
-            result = result.concat(v);
+    else {
+        result = {};
+        if (ownerId) {
+            let v = boardStore.getByOwnerId(ownerId);
+            
+            if (v != null) {
+                result.owned = v;
+            }
         }
-    }
 
-    if (userId) {
-        let v = boardStore.getByUserId(userId);
-        if (v != null) {
-            result = result.concat(v);
+        if (userId) {
+            let v = boardStore.getByUserId(userId);
+
+            if (v != null) {
+                result.edited=v;
+            }
         }
     }
 

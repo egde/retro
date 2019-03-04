@@ -21,8 +21,10 @@ class BoardOverview extends Component {
         }
 
         this.state = {
-            boards : [
-            ],
+            boards : {
+                owner: [],
+                edited : []
+            },
             board : {},
             userId : userId,
             isShowAddBoard:false
@@ -47,7 +49,17 @@ class BoardOverview extends Component {
     }
     
     loadBoards() {
-        this.setState({boards : BoardStore.getBoards()});
+        var boards = BoardStore.getBoards();
+        if (boards.edited) {
+            boards.edited = boards.edited.filter(function(b1) {
+                const found = boards.owned.find(function(b2) {
+                    return b2.id === b1.id;
+                });
+                console.log(found);
+                return  !found ? true : false;
+            });
+        }
+        this.setState({boards : boards});
     }
     
     addBoard() {
@@ -102,11 +114,32 @@ class BoardOverview extends Component {
                     <div className="container">
                         <div className="tile is-ancestor is-vertical">
                         {
-                            Object.entries(this.state.boards).map((board) => {
+                            this.state.boards.owned && this.state.boards.owned.map((board) => {
                                 return (
-                                    <div key={board[1].id} className="tile is-parent">
+                                    <div key={board.id} className="tile is-parent">
                                          <article className="tile is-child notification is-info">
-                                            <Link to={"/board/"+board[1].id}>{board[1].title}</Link>
+                                            <Link to={"/board/"+board.id}>
+                                                <span class="icon">
+                                                    <i class="fas fa-user"></i>
+                                                </span>
+                                                {board.title}
+                                            </Link>
+                                        </article>
+                                    </div>
+                                );
+                            })
+                        }
+                        {
+                            this.state.boards.edited && this.state.boards.edited.map((board) => {
+                                return (
+                                    <div key={board.id} className="tile is-parent">
+                                         <article className="tile is-child notification is-success">
+                                            <Link to={"/board/"+board.id}>
+                                                <span class="icon">
+                                                    <i class="fas fa-pen"></i>
+                                                </span>
+                                                {board.title}
+                                            </Link>
                                         </article>
                                     </div>
                                 );
