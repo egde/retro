@@ -72,7 +72,7 @@ class Issue extends Component {
         this.setState({mode:'READ'});
     }
     
-    onMouseLeaveSelect = () => {
+    onMouseLeaveTimed = () => {
         setTimeout(this.onMouseLeave, 2000);
     }
     
@@ -89,7 +89,7 @@ class Issue extends Component {
                         }
                         {
                             this.state.mode === 'EDIT' && (
-                                <textarea className="textarea has-fixed-size" name="text" value={this.props.issue.text} onChange={this.handleChange} onBlur={this.onFocusOut}/>
+                                <textarea className="textarea has-fixed-size" name="text" value={this.props.issue.text} onChange={this.handleChange} onMouseLeave={this.onMouseLeaveTimed} onBlur={this.onFocusOut}/>
                                 )
                         }
                     </div>
@@ -104,7 +104,7 @@ class Issue extends Component {
                     {
                         this.state.mode === 'EDIT' && (
                             <div className="select">
-                                <select name="state" onChange={this.handleChange} value={this.props.issue.state} onBlur={this.onFocusOut} onMouseLeave={ this.onMouseLeaveSelect }>
+                                <select name="state" onChange={this.handleChange} value={this.props.issue.state} onBlur={this.onFocusOut} onMouseLeave={ this.onMouseLeaveTimed }>
                                     {
                                         this.props.states.map((state, ind) => {
                                             return (
