@@ -54,11 +54,13 @@ class BoardOverview extends Component {
         var boards = BoardStore.getBoards();
         if (boards.edited) {
             boards.edited = boards.edited.filter(function(b1) {
-                const found = boards.owned.find(function(b2) {
-                    return b2.id === b1.id;
-                });
-                console.log(found);
-                return  !found ? true : false;
+                if (boards.owned) {
+                    const found = boards.owned.find(function(b2) {
+                        return b2.id === b1.id;
+                    });
+                    return  !found ? true : false;
+                }
+                return true;
             });
         }
         this.setState({boards : boards});
