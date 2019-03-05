@@ -25,9 +25,8 @@ npm install
 npm run dev
 ```
 
-### Getting it setup on AWS Lightsail
+## Run it on AWS Lightsail
 Scripts are available to run retro on AWS Lightsail.
-![AWS Lightsail Configuration](https://raw.githubusercontent.com/egde/retro/master/docs/aws-lightsail-setup.png)
 
 1. Create an Ubuntu 18.04 instance with 512MB and 20 GB of storage
 2. Copy and paste the following line for the launch script:
@@ -35,3 +34,5 @@ Scripts are available to run retro on AWS Lightsail.
 curl -o- https://raw.githubusercontent.com/egde/retro/master/cloud/init.sh | bash
 ```
 3. Launch the instance and in ca. 30 mins the retro web app is up and running
+
+![AWS Lightsail Configuration](https://raw.githubusercontent.com/egde/retro/master/docs/aws-lightsail-setup.png)
