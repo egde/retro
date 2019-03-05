@@ -7,6 +7,7 @@ class IssueEntity {
         this.text = "";
         this.state = "";
         this.boardId = "";
+        this.ownerId = "";
     }
 }
 

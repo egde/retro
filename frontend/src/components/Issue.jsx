@@ -65,7 +65,9 @@ class Issue extends Component {
     }
     
     onMouseOver = () => {
-        this.setState({mode:'EDIT'});
+        if (this.props.issue.ownerId === this.props.userId) {
+            this.setState({mode:'EDIT'});
+        }
     }
     
     onMouseLeave = () => {
@@ -89,7 +91,7 @@ class Issue extends Component {
                         }
                         {
                             this.state.mode === 'EDIT' && (
-                                <textarea className="textarea has-fixed-size" name="text" value={this.props.issue.text} onChange={this.handleChange} onMouseLeave={this.onMouseLeaveTimed} onBlur={this.onFocusOut}/>
+                                <textarea className="textarea has-fixed-size" name="text" value={this.props.issue.text} onChange={this.handleChange} onMouseLeave={this.onMouseLeave} onBlur={this.onFocusOut}/>
                                 )
                         }
                     </div>
@@ -117,13 +119,18 @@ class Issue extends Component {
                         )
                     }
                     </div>
-                    <div className="control">
-                        <button className="button is-light" onClick={this.deleteEntry}>
-                            <span className="icon">
-                              <i className="fas fa-trash"></i>
-                            </span>
-                        </button>
-                    </div>
+                    {
+                        (this.props.issue.ownerId === this.props.userId) && (
+                            <div className="control">
+                                <button className="button is-light" onClick={this.deleteEntry}>
+                                    <span className="icon">
+                                    <i className="fas fa-trash"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        )
+                    }
+                    
                 </div>
             </div>
         )

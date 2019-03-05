@@ -117,8 +117,8 @@ class Board extends Component {
         var issue = new IssueEntity();
         issue.boardId = this.state.board.id;
         issue.state = state;
+        issue.ownerId = this.state.userId;
         
-        issues.push(issue);
         if (!this.isUserInBoard()) {
             BoardActions.addBoardUser(issue.boardId, this.state.userId);
         }
@@ -174,7 +174,7 @@ class Board extends Component {
                                                 <div className="content">
                                             {
                                                 issues.map((issue, ind) => {
-                                                    return (<Issue issue={issue} states={this.state.board.states} key={ind} name={issue.id} onChange={this.handleChange} onDelete={this.deleteEntry} onFocusOut={this.saveEntry}/>)
+                                                    return (<Issue issue={issue} states={this.state.board.states} userId={this.state.userId} key={ind} name={issue.id} onChange={this.handleChange} onDelete={this.deleteEntry} onFocusOut={this.saveEntry}/>)
                                                 })
                                             }
                                                 </div>
