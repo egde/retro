@@ -35,6 +35,7 @@ class BoardOverview extends Component {
         this.addNewBoard = this.addNewBoard.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.loadBoards = this.loadBoards.bind(this);
+        this.showShareBoard = this.showShareBoard.bind(this);
     }
     
     componentWillMount() {
@@ -99,8 +100,8 @@ class BoardOverview extends Component {
         this.setState({isShowAddBoard: false});
     }
 
-    showShareBoard = (e) => {
-        this.setState({isShowShareBoard: true, sharedBoardId : e.target.name})
+    showShareBoard(event) {
+        this.setState({isShowShareBoard: true, sharedBoardId : event.target.name})
     }
 
     render() {
@@ -127,8 +128,8 @@ class BoardOverview extends Component {
                                                 <div className="level-left">
                                                     <div className="level-item">
                                                         <Link to={"/board/"+board.id}>
-                                                            <span class="icon">
-                                                                <i class="fas fa-user"></i>
+                                                            <span className="icon">
+                                                                <i className="fas fa-user"></i>
                                                             </span>
                                                             {board.title}
                                                         </Link>
@@ -137,8 +138,8 @@ class BoardOverview extends Component {
                                                 <div className="level-right">
                                                     <div className="level-item">
                                                         <button className="button is-outlined" name={board.id} onClick={this.showShareBoard}>
-                                                            <span class="icon">
-                                                                <i class="fas fa-share"></i>
+                                                            <span className="icon">
+                                                                <i name={board.id} className="fas fa-share"></i>
                                                             </span>
                                                         </button>
                                                     </div>

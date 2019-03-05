@@ -16,3 +16,7 @@
     padding: calc(.375em - 1px) calc(.625em - 1px);
     height: 2.25em;
 }
+
+button > * {
+    pointer-events: none;
+}
