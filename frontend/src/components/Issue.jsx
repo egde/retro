@@ -48,6 +48,7 @@ class Issue extends Component {
         issue.text = issueValue;
         issue.boardId = this.props.issue.boardId;
         issue.dbId = this.props.issue.dbId;
+        issue.ownerId = this.props.issue.ownerId;
         
         var e = {
             target : {
@@ -70,10 +71,6 @@ class Issue extends Component {
         }
     }
     
-    onMouseLeave = () => {
-        this.setState({mode:'READ'});
-    }
-    
     onMouseLeaveTimed = () => {
         setTimeout(this.onMouseLeave, 2000);
     }
@@ -91,7 +88,7 @@ class Issue extends Component {
                         }
                         {
                             this.state.mode === 'EDIT' && (
-                                <textarea className="textarea has-fixed-size" name="text" value={this.props.issue.text} onChange={this.handleChange} onMouseLeave={this.onMouseLeave} onBlur={this.onFocusOut}/>
+                                <textarea className="textarea has-fixed-size" name="text" value={this.props.issue.text} onChange={this.handleChange} onMouseLeave={this.onFocusOut} onBlur={this.onFocusOut}/>
                                 )
                         }
                     </div>
