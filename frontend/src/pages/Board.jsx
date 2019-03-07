@@ -119,6 +119,7 @@ class Board extends Component {
         issue.state = state;
         issue.ownerId = this.state.userId;
         
+        issues.push(issue);
         if (!this.isUserInBoard()) {
             BoardActions.addBoardUser(issue.boardId, this.state.userId);
         }
