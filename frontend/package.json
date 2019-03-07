@@ -16,7 +16,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "version": "auto-changelog -p -o history.md && git add history.md",
+    "build": "auto-changelog -o history.md && react-scripts build && cp history.md public/history.md",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -28,5 +29,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "auto-changelog": "^1.11.0"
+  }
 }
