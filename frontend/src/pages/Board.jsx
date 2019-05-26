@@ -181,7 +181,7 @@ class Board extends Component {
                                             <div className="section">
                                                 <div className="content">
                                                     <div className="tile is-ancestor">
-                                                        <div className="tile is-4 is-parent is-vertical">
+                                                        <div className="tile is-parent is-vertical">
                                                             {
                                                                 issues.map((issue, ind) => {
                                                                     return (<Issue issue={issue} states={this.state.board.states} userId={this.state.userId} key={ind} name={issue.id} onChange={this.handleChange} onDelete={this.deleteEntry} onFocusOut={this.saveEntry}/>)
