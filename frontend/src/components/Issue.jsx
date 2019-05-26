@@ -77,8 +77,7 @@ class Issue extends Component {
     
     render() {
         return (
-            <div id={"issue-"+this.props.issue.id} className="box">
-                
+            <div id={"issue-"+this.props.issue.id} className="tile is-child box">
                 <div className="field">
                     <div className="control">
                         {
