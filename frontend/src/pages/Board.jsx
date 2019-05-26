@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import {withCookies} from 'react-cookie';
 import v4 from 'uuid/v4';
 
@@ -149,6 +150,12 @@ class Board extends Component {
                 <section id="board" className="section">
                     <div className="container">
                     <h1 className="title">{`Board - ${this.state.board.title}`}</h1>
+                        <nav className="breadcrumb" aria-label="breadcrumbs">
+                        <ul>
+                            <li><Link to="/">Boards</Link></li>
+                            <li class="is-active"><Link to="." aria-current="page">{this.state.board.title}</Link></li>
+                        </ul>
+                        </nav>
                         <div className="columns">
                             {
                                 this.state.board.states && this.state.board.states.map((state, ind) => {
@@ -173,11 +180,15 @@ class Board extends Component {
                                                     
                                             <div className="section">
                                                 <div className="content">
-                                            {
-                                                issues.map((issue, ind) => {
-                                                    return (<Issue issue={issue} states={this.state.board.states} userId={this.state.userId} key={ind} name={issue.id} onChange={this.handleChange} onDelete={this.deleteEntry} onFocusOut={this.saveEntry}/>)
-                                                })
-                                            }
+                                                    <div className="tile is-ancestor">
+                                                        <div className="tile is-4 is-parent">
+                                                            {
+                                                                issues.map((issue, ind) => {
+                                                                    return (<Issue issue={issue} states={this.state.board.states} userId={this.state.userId} key={ind} name={issue.id} onChange={this.handleChange} onDelete={this.deleteEntry} onFocusOut={this.saveEntry}/>)
+                                                                })
+                                                            }
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             </div>
