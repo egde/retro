@@ -84,6 +84,9 @@ class BoardOverview extends Component {
         var board = this.state.board;
         if (name === 'stateInd') {
             switch (value) {
+                case '2':
+                    board.states = ['Glad', 'Sad', 'Mad', 'Afraid'];
+                    break;
                 case '1':
                     board.states = ['GOOD', 'BAD', 'DISCONTINUE'];
                     break;
@@ -197,6 +200,7 @@ class BoardOverview extends Component {
                                                 <select name="stateInd" onChange={this.handleChange} value={this.state.board.stateInd}>
                                                     <option value="0">Smile - Frown - Improve</option>
                                                     <option value="1">GOOD - BAD - DISCONTINUE</option>
+                                                    <option value="2">Glad - Sad - Mad - Afraid</option>
                                                 </select>
                                             </div>
                                         </div>
