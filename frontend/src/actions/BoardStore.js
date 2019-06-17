@@ -60,8 +60,18 @@ class BoardStore extends EventEmitter{
             .then((res) => {
                 this.emit(EventTypes.ADD_BOARD_USER_COMPLETED);   
             })
-            .catch((err)=>{
+            .catch((err) => {
                 console.log(err);
+            });
+    }
+
+    deleteBoard(boardId) {
+        axios.delete('/api/boards/'+boardId)
+            .then((res) => {
+                this.emit(EventTypes.DELETE_BOARD_COMPLETED);
+            })
+            .catch((err) => {
+                console.log(err)
             });
     }
 
@@ -94,6 +104,13 @@ class BoardStore extends EventEmitter{
                     break;
                 }
                 this.addBoardUser(action.boardId, action.userId);
+                break;
+            case ActionTypes.DELETE_BOARD:
+                if(!action.boardId) {
+                    this.emit(EventTypes.DELETE_BOARD_COMPLETED);
+                    break;
+                }
+                this.deleteBoard(action.boardId);
                 break;
             default:
                 return;

@@ -36,20 +36,27 @@ class BoardOverview extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.loadBoards = this.loadBoards.bind(this);
         this.showShareBoard = this.showShareBoard.bind(this);
+        this.getBoards = this.getBoards.bind(this);
     }
     
     componentWillMount() {
         BoardStore.on(EventTypes.LOAD_BOARDS_COMPLETED, this.loadBoards);
+        BoardStore.on(EventTypes.DELETE_BOARD_COMPLETED, this.getBoards);
     }
 
     componentWillUnmount() {
         BoardStore.removeListener(EventTypes.LOAD_BOARDS_COMPLETED, this.loadBoards);
+        BoardStore.removeListener(EventTypes.DELETE_BOARD_COMPLETED, this.getBoards);
     }
 
     componentDidMount() {
-        BoardActions.loadBoards(this.state.userId);
+        this.getBoards();
     }
     
+    getBoards() {
+        BoardActions.loadBoards(this.state.userId)
+    }
+
     loadBoards() {
         var boards = BoardStore.getBoards();
         if (boards.edited) {
@@ -109,6 +116,10 @@ class BoardOverview extends Component {
         this.setState({isShowShareBoard: true, sharedBoardId : event.target.name})
     }
 
+    deleteBoard(event) {
+        BoardActions.deleteBoard(event.target.name)
+    }
+
     render() {
         return (
             <section id="BoardOverview" className="section">
@@ -145,6 +156,13 @@ class BoardOverview extends Component {
                                                         <button className="button is-outlined" name={board.id} onClick={this.showShareBoard}>
                                                             <span className="icon">
                                                                 <i name={board.id} className="fas fa-share"></i>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <div className="level-item">
+                                                        <button className="button is-outlined" name={board.id} onClick={this.deleteBoard}>
+                                                            <span className="icon">
+                                                                <i name={board.id} className="fas fa-trash"></i>
                                                             </span>
                                                         </button>
                                                     </div>

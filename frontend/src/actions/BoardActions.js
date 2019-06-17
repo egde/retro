@@ -26,6 +26,12 @@ const Actions = {
             boardId,
             userId
         })
+    },
+    deleteBoard(boardId) {
+        dispatcher.dispatch({
+            type: BoardActionTypes.DELETE_BOARD,
+            boardId
+        })
     }
 }
 
