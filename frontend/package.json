@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "version": "auto-changelog -p -o history.md && git add history.md",
+    "version": "auto-changelog --commit-limit false -p -o history.md && git add history.md",
     "build": "auto-changelog --commit-limit false -o history.md && react-scripts build && cp history.md public/history.md",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
