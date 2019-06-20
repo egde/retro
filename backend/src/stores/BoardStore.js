@@ -1,5 +1,3 @@
-var uuid = require('uuid/v4');
-
 class BoardStore {
     constructor() {
         this.boards = {};
@@ -36,9 +34,22 @@ class BoardStore {
         
         return results.length == 0 ? null : results;
     }
+
+    generateId() {
+        var max = 99999;
+        var min = 1;
+        var random = Math.floor(Math.random() * (+max - +min)) + +min; 
+        var id = ""+random;
+        return id.padStart(5, "0");
+    }
     
     saveNewBoard(board) {
-        board.id = uuid();
+        // generate an ID and check it if it unique. If not generate a new ID
+        board.id = this.generateId();
+        while (this.boards[ board.id ]) {
+            board.id = this.generateId();
+        }
+
         this.boards[ board.id ] = board;
         return board.id;
     }
