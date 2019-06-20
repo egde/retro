@@ -41,7 +41,12 @@ class BoardStore extends EventEmitter{
                 this.emit(EventTypes.LOAD_BOARD_COMPLETED);
             })
             .catch((err) => {
-                console.log(err);
+                if (err.response.status == 404) {
+                    this.board = null;
+                    this.emit(EventTypes.LOAD_BOARD_COMPLETED)
+                } else  {
+                    console.log(err);
+                }
             });
     }
     

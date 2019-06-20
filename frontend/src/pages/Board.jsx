@@ -5,6 +5,7 @@ import v4 from 'uuid/v4';
 
 import Issue from '../components/Issue.jsx';
 import IssueEntity from '../entities/Issue.js';
+import JoinSection from '../components/JoinSection';
 
 import IssueActions from '../actions/IssueActions';
 import IssueStore from '../actions/IssueStore';
@@ -203,8 +204,17 @@ class Board extends Component {
          else {
             return (
                 <section className="section">
-                    <h1 className="Title">Nothing found here</h1>
-                </section>)
+                    <div className="container">
+                        <h1 className="title">Sorry...</h1>
+                        <div class="notification">
+                            <p>The retro board you are looking for does not exist</p>
+                            <p>You tried accessing the board with the id: <strong>{this.props.match.params.id}</strong></p>
+                            <br/>
+                            <Link className="button is-primary" to="/">Return</Link>
+                        </div>
+                    </div>
+                </section>
+                )
         }
     }
    
