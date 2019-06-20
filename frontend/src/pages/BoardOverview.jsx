@@ -7,6 +7,7 @@ import BoardActions from '../actions/BoardActions';
 import BoardStore from '../actions/BoardStore';
 import { EventTypes } from '../actions/BoardActionTypes';
 import BoardEntity from '../entities/Board';
+import JoinSection from '../components/JoinSection';
 
 class BoardOverview extends Component {
     constructor(props) {
@@ -130,9 +131,12 @@ class BoardOverview extends Component {
                             <div className="level-item has-text-centered">
                                 <button className="button is-primary" onClick={this.addBoard}>Add</button>
                             </div>
+                            <div className="level-item has-text-centered">
+                                <JoinSection></JoinSection>
+                            </div>
                         </div>
                     </div>
-
+                    
                     <div className="container">
                         <div className="tile is-ancestor is-vertical">
                         {
