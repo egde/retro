@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {withCookies} from 'react-cookie';
 import v4 from 'uuid/v4';
 
@@ -19,17 +20,54 @@ class Landing extends Component {
             cookies.set('uuid', userId)
         }
         this.state = {
-            userId: userId
+            userId: userId,
+            isShowBoards : false
         }
         this.goToBoard = this.goToBoard.bind(this);
+        this.loadBoards = this.loadBoards.bind(this);
+        this.boardsLoaded = this.boardsLoaded.bind(this);
     }
 
     componentWillMount() {
         boardStore.on(EventTypes.ADD_BOARD_COMPLETED, this.goToBoard);
+        boardStore.on(EventTypes.LOAD_BOARDS_COMPLETED, this.boardsLoaded);
+    }
+
+    componentDidMount() {
+        this.loadBoards()
     }
 
     componentWillUnmount() {
         boardStore.removeListener(EventTypes.ADD_BOARD_COMPLETED, this.goToBoard);
+        boardStore.removeListener(EventTypes.LOAD_BOARDS_COMPLETED, this.boardsLoaded);
+    }
+
+    boardsLoaded() {
+        var boards = boardStore.getBoards();
+        if (boards.edited) {
+            boards.edited = boards.edited.filter(function(b1) {
+                if (boards.owned) {
+                    const found = boards.owned.find(function(b2) {
+                        return b2.id === b1.id;
+                    });
+                    return  !found ? true : false;
+                }
+                return true;
+            });
+        }
+
+        if (
+            (boards.edited && boards.edited.length > 0)
+            || (boards.owned && boards.owned.length > 0)
+        ){
+            this.setState( {
+                isShowBoards : true
+            });
+        }
+    }
+
+    loadBoards() {
+        boardStore.loadBoards(this.state.userId);
     }
 
     goToBoard(boardId) {
@@ -47,9 +85,16 @@ class Landing extends Component {
                     <h2 className="subtitle">a nimble tool for your retrospectives</h2>
                     <div className="tile">
                         <div className="tile is-parent is-vertical">
-                            <div className="tile is-child">
-                                <JoinSection className="is-8"></JoinSection>
-                                <AddNewBoardButton className="is-8" label="Create a retrospective" userId={this.state.userId}></AddNewBoardButton>
+                            <div className="tile is-child is-4">
+                                <JoinSection isFullwidth="true" isPrimary="true"></JoinSection>
+                                <AddNewBoardButton isFullwidth="true" label="Create a retrospective" userId={this.state.userId}></AddNewBoardButton>
+                                {
+                                    this.state.isShowBoards && (
+                                        <div className="field">
+                                            <Link to="/boards" className="button is-fullwidth is-info">Show my boards</Link>
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
                     </div>

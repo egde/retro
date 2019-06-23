@@ -32,13 +32,23 @@ class JoinSection extends Component {
     }
 
     render() {
+        let classNameC = "control";
+        if (this.props.isFullwidth) {
+            classNameC += " is-expanded"
+        }
+        let classNameBtn = "button"
+        if (this.props.isPrimary) {
+            classNameBtn += " is-primary"
+        } else {
+            classNameBtn += " is-info"
+        }
         return(
             <div id="JoinSection" className="field has-addons">
-                <div className="control">
+                <div className={classNameC}>
                     <input className="input" type="text" placeholder="Join a retro" value={this.state.boardId} name="boardId" onChange={this.handleChange}/>
                 </div>
                 <div className="control">
-                    <button className="button is-info" onClick={this.joinBoard}>
+                    <button className={classNameBtn} onClick={this.joinBoard}>
                     Join
                     </button>
                 </div>

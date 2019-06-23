@@ -60,9 +60,18 @@ class AddNewBoardButton extends Component {
     }
 
     render() {
+        let className = "button";
+        if (this.props.isFullwidth) {
+            className += " is-fullwidth"
+        }
+        if (this.props.isPrimary) {
+            className += " is-primary"
+        } else {
+            className += " is-info"
+        }
         return (
-            <div id="AddNewBoardButton">
-                <button className="button is-primary" onClick={this.addBoard}>{this.state.label}</button>
+            <div id="AddNewBoardButton" className="field">
+                <button className={className} onClick={this.addBoard}>{this.state.label}</button>
                 {
                     this.state.isShowAddBoard && (
                         <div className="modal is-active">

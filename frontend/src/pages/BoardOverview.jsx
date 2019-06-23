@@ -87,7 +87,7 @@ class BoardOverview extends Component {
                     <div className="level">
                         <div className="level-left">
                             <div className="level-item has-text-centered">
-                                <AddNewBoardButton userId={this.state.userId}></AddNewBoardButton>
+                                <AddNewBoardButton isPrimary="true" userId={this.state.userId}></AddNewBoardButton>
                             </div>
                             <div className="level-item has-text-centered">
                                 <JoinSection></JoinSection>
