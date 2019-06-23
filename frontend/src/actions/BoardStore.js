@@ -53,7 +53,7 @@ class BoardStore extends EventEmitter{
     addBoard(board) {
         axios.post('/api/boards',board)
             .then((res) => {
-                this.loadBoards(board.ownerId, board.ownerId);        
+                this.emit(EventTypes.ADD_BOARD_COMPLETED);        
             })
             .catch((err) => {
                 console.log(err);
@@ -98,7 +98,7 @@ class BoardStore extends EventEmitter{
                 break;
             case ActionTypes.ADD_BOARD:
                 if(!action.board) {
-                    this.emit(EventTypes.LOAD_BOARD_COMPLETED);
+                    this.emit(EventTypes.ADD_BOARD_COMPLETED);
                     break;
                 }
                 this.addBoard(action.board);
