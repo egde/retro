@@ -27,7 +27,7 @@ class JoinSection extends Component {
 
     joinBoard() {
         if (this.state.boardId) {
-            this.props.history.push('/board/'+this.state.boardId)
+            this.props.history.push('/boards/'+this.state.boardId)
         }
     }
 

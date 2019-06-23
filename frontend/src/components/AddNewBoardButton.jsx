@@ -11,7 +11,8 @@ class AddNewBoardButton extends Component {
 
         this.state = {
             board: null,
-            isShowAddBoard:false
+            isShowAddBoard:false,
+            label : this.props.label ? this.props.label : 'Add'
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -61,7 +62,7 @@ class AddNewBoardButton extends Component {
     render() {
         return (
             <div id="AddNewBoardButton">
-                <button className="button is-primary" onClick={this.addBoard}>Add</button>
+                <button className="button is-primary" onClick={this.addBoard}>{this.state.label}</button>
                 {
                     this.state.isShowAddBoard && (
                         <div className="modal is-active">

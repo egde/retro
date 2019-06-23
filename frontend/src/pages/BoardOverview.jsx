@@ -8,7 +8,6 @@ import BoardStore from '../actions/BoardStore';
 import { EventTypes } from '../actions/BoardActionTypes';
 import JoinSection from '../components/JoinSection';
 import AddNewBoardButton from '../components/AddNewBoardButton';
-import boardStore from '../actions/BoardStore';
 
 class BoardOverview extends Component {
     constructor(props) {
@@ -106,7 +105,7 @@ class BoardOverview extends Component {
                                          <div className="level">
                                                 <div className="level-left">
                                                     <div className="level-item">
-                                                        <Link to={"/board/"+board.id}>
+                                                        <Link to={"/boards/"+board.id}>
                                                             <span className="icon">
                                                                 <i className="fas fa-user"></i>
                                                             </span>
@@ -144,7 +143,7 @@ class BoardOverview extends Component {
                                             <div className="level">
                                                 <div className="level-left">
                                                     <div className="level-item">
-                                                        <Link to={"/board/"+board.id}>
+                                                        <Link to={"/boards/"+board.id}>
                                                             <span class="icon">
                                                                 <i class="fas fa-pen"></i>
                                                             </span>

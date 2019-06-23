@@ -5,7 +5,6 @@ import v4 from 'uuid/v4';
 
 import Issue from '../components/Issue.jsx';
 import IssueEntity from '../entities/Issue.js';
-import JoinSection from '../components/JoinSection';
 
 import IssueActions from '../actions/IssueActions';
 import IssueStore from '../actions/IssueStore';
@@ -153,7 +152,7 @@ class Board extends Component {
                     <h1 className="title">{`Board - ${this.state.board.title}`}</h1>
                         <nav className="breadcrumb" aria-label="breadcrumbs">
                         <ul>
-                            <li><Link to="/">Boards</Link></li>
+                            <li><Link to="/boards">Boards</Link></li>
                             <li class="is-active"><Link to="." aria-current="page">{this.state.board.title}</Link></li>
                         </ul>
                         </nav>
