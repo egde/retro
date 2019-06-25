@@ -156,6 +156,7 @@ class Board extends Component {
                             <li class="is-active"><Link to="." aria-current="page">{this.state.board.title}</Link></li>
                         </ul>
                         </nav>
+                        <div className="notification is-info has-text-centered">Go to <strong>{window.location.protocol+`//`+window.location.hostname+`:`+window.location.port}</strong> and join this retro by using the code <strong>{this.state.board.id}</strong></div>
                         <div className="columns">
                             {
                                 this.state.board.states && this.state.board.states.map((state, ind) => {
