@@ -28,6 +28,9 @@ class AddNewBoardButton extends Component {
         var board = this.state.board;
         if (name === 'stateInd') {
             switch (value) {
+                case '3':
+                    board.states = ['Start', 'Stop', 'Continue'];
+                    break;
                 case '2':
                     board.states = ['Glad', 'Sad', 'Mad', 'Afraid'];
                     break;
@@ -92,6 +95,7 @@ class AddNewBoardButton extends Component {
                                                     <option value="0">Smile - Frown - Improve</option>
                                                     <option value="1">Good - Bad - Discontinue</option>
                                                     <option value="2">Glad - Sad - Mad - Afraid</option>
+                                                    <option value="3">Start - Stop - Continue</option>
                                                 </select>
                                             </div>
                                         </div>
