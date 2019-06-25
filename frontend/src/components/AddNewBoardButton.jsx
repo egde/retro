@@ -32,7 +32,7 @@ class AddNewBoardButton extends Component {
                     board.states = ['Glad', 'Sad', 'Mad', 'Afraid'];
                     break;
                 case '1':
-                    board.states = ['GOOD', 'BAD', 'DISCONTINUE'];
+                    board.states = ['Good', 'Bad', 'Discontinue'];
                     break;
                 default:
                     board.states = ['Smile', 'Frown', 'Improve'];
@@ -90,7 +90,7 @@ class AddNewBoardButton extends Component {
                                             <div className="select">
                                                 <select name="stateInd" onChange={this.handleChange} value={this.state.board.stateInd}>
                                                     <option value="0">Smile - Frown - Improve</option>
-                                                    <option value="1">GOOD - BAD - DISCONTINUE</option>
+                                                    <option value="1">Good - Bad - Discontinue</option>
                                                     <option value="2">Glad - Sad - Mad - Afraid</option>
                                                 </select>
                                             </div>
