@@ -172,10 +172,10 @@ class BoardOverview extends Component {
                                         <p className="has-text-centered">Copy the URL below and send it to the members you wish to collaborate!</p>
                                         <div className="level">
                                             <div className="level-item">
-                                                <span className="has-text-centered has-text-weight-bold">{window.location.href}board/{this.state.sharedBoardId}</span>
+                                                <span className="has-text-centered has-text-weight-bold">{window.location.href}/{this.state.sharedBoardId}</span>
                                             </div>
                                             <a className="level-item" aria-label="reply" href={
-`mailto:?subject=Join a retrospective!&body=Hi,%0D%0A%0D%0Aplease join the retrospective I've created on `+window.location.href+"board/"+this.state.sharedBoardId+` .%0D%0A%0D%0ASee you!`}>
+`mailto:?subject=Join a retrospective!&body=Hi,%0D%0A%0D%0Aplease join the retrospective I've created on `+window.location.href+"/"+this.state.sharedBoardId+` .%0D%0A%0D%0ASee you!`}>
                                                 <span className="icon">
                                                     <i className="fas fa-envelope" aria-hidden="true"></i>
                                                 </span>
