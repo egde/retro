@@ -82,7 +82,7 @@ class Issue extends Component {
                     <div className="control">
                         {
                             this.state.mode === 'READ' && (
-                                <p className="retro-textarea-readOnly" name="text" onMouseOver={this.onMouseOver}>{this.props.issue.text}</p>
+                                <p className="retro-textarea-readOnly" name="text" onClick={this.onMouseOver}>{this.props.issue.text}</p>
                                 )
                         }
                         {
@@ -96,7 +96,7 @@ class Issue extends Component {
                     <div className="control">
                     {
                             this.state.mode === 'READ' && (
-                                <p className="retro-select-readOnly" onMouseOver={this.onMouseOver}>{this.props.issue.state}</p>
+                                <p className="retro-select-readOnly" onClick={this.onMouseOver}>{this.props.issue.state}</p>
                                 )
                     }
                     {
