@@ -77,7 +77,7 @@ class Issue extends Component {
     
     render() {
         return (
-            <div id={"issue-"+this.props.issue.id} className="tile is-child box">
+            <div id={"issue-"+this.props.issue.id} className={this.props.issue.ownerId === this.props.userId ? "tile is-child box " : "tile is-child box retro-otherbox"}>
                 <div className="field">
                     <div className="control">
                         {

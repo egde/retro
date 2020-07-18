@@ -1,5 +1,4 @@
 .retro-textarea-readOnly {
-    background-color: #fff;
     color: #363636;
     width: 100%;
     min-height: 120px;
@@ -20,4 +19,8 @@
 
 button > * {
     pointer-events: none;
+}
+
+.retro-otherbox {
+    background-color: hsla(48, 100%, 67%, 0.322);
 }
