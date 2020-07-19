@@ -19,6 +19,12 @@ const Actions = {
             type: IssueActionTypes.DELETE_ISSUE,
             issue
         })
+    },
+    bulkSaveIssues(issues) {
+        dispatcher.dispatch({
+            type: IssueActionTypes.BULKUPDATE_ISSUE,
+            issues
+        })
     }
 }
 

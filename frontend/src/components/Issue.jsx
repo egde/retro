@@ -78,6 +78,26 @@ class Issue extends Component {
     render() {
         return (
             <div id={"issue-"+this.props.issue.id} className={this.props.issue.ownerId === this.props.userId ? "tile is-child box " : "tile is-child box retro-otherbox"}>
+                <div className="level">
+                    <div className="level-left"></div>
+
+                    <div className="level-right">
+                        <div className="level-item">
+                            {
+                                (this.props.issue.ownerId === this.props.userId) && (
+                                    <div className="control">
+                                        <a className="has-text-grey-light" onClick={this.deleteEntry}>
+                                            <span className="icon">
+                                                <i className="fas fa-times"></i>
+                                            </span>
+                                        </a>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </div>
+                </div>
+
                 <div className="field">
                     <div className="control">
                         {
@@ -92,41 +112,13 @@ class Issue extends Component {
                         }
                     </div>
                 </div>
-                <div className="field is-grouped">
-                    <div className="control">
-                    {
-                            this.state.mode === 'READ' && (
-                                <p className="retro-select-readOnly" onClick={this.onMouseOver}>{this.props.issue.state}</p>
-                                )
-                    }
-                    {
-                        this.state.mode === 'EDIT' && (
-                            <div className="select">
-                                <select name="state" onChange={this.handleChange} value={this.props.issue.state} onBlur={this.onFocusOut} onMouseLeave={ this.onMouseLeaveTimed }>
-                                    {
-                                        this.props.states.map((state, ind) => {
-                                            return (
-                                                    <option key={ind} value={state}>{state}</option>
-                                                );
-                                        })
-                                    }
-                                </select>
-                            </div>
-                        )
-                    }
+                   
+                <div className="level">
+                    <div className="level-left">
+                        <div className="level-item">
+                            <span className="has-text-grey-light is-family-monospace is-size-7">{this.props.issue.state}</span>
+                        </div>
                     </div>
-                    {
-                        (this.props.issue.ownerId === this.props.userId) && (
-                            <div className="control">
-                                <button className="button is-light" onClick={this.deleteEntry}>
-                                    <span className="icon">
-                                    <i className="fas fa-trash"></i>
-                                    </span>
-                                </button>
-                            </div>
-                        )
-                    }
-                    
                 </div>
             </div>
         )

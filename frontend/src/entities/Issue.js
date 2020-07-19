@@ -8,6 +8,7 @@ class IssueEntity {
         this.state = "";
         this.boardId = "";
         this.ownerId = "";
+        this.order = 0;
     }
 }
 

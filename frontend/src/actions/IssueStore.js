@@ -25,7 +25,7 @@ class IssueStore extends EventEmitter{
                 this.emit(EventTypes.LOAD_ISSUES_COMPLETED);
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             })
         
         
@@ -39,7 +39,7 @@ class IssueStore extends EventEmitter{
                     this.emit(EventTypes.SAVE_ISSUE_COMPLETED);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.error(err);
                 });
         } else {
             axios.post('/api/issues', issue )
@@ -48,7 +48,7 @@ class IssueStore extends EventEmitter{
                     this.emit(EventTypes.SAVE_ISSUE_COMPLETED);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.error(err);
                 });
         }
     }
@@ -59,10 +59,20 @@ class IssueStore extends EventEmitter{
                 this.emit(EventTypes.DELETE_ISSUE_COMPLETED);
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     }
 
+    bulkSaveIssues(issues) {
+        axios.post('/api/issues/bulk', issues)
+            .then((res) => {
+                this.loadIssues(issues[0].boardId);
+                this.emit(EventTypes.BULKUPDATE_ISSUE_COMPLETED);
+            })
+            .catch((err) => {
+                console.error(err)
+            });
+    }
 
     handleActions(action) {
         switch(action.type) {
@@ -85,6 +95,12 @@ class IssueStore extends EventEmitter{
                     this.emit(EventTypes.DELETE_ISSUE_COMPLETED);
                 }
                 this.deleteIssue(action.issue);
+                break;
+            case ActionTypes.BULKUPDATE_ISSUE:
+                if(!action.issues) {
+                    this.emit(EventTypes.BULKUPDATE_ISSUE_COMPLETED);
+                }
+                this.bulkSaveIssues(action.issues);
                 break;
             default:
                 return;
