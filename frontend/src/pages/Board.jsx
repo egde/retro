@@ -144,7 +144,7 @@ class Board extends Component {
         }
 
         var arrays = {}
-        this.state.board.states.map((state, ind) => {
+        this.state.board.states.forEach((state) => {
             arrays[state] = this.state.issues.filter((issue) => {
                     return issue.state === state
             })
@@ -154,20 +154,20 @@ class Board extends Component {
         removed.state = result.destination.droppableId
         arrays[result.destination.droppableId].splice(result.destination.index, 0, removed)
 
-        var result = []
+        var ordered_issues = []
         this.state.board.states.map((state, ind) => {
             arrays[state].forEach( element => {
-                result.push(element)
+                ordered_issues.push(element)
             })
         })
 
         var i = 0
-        result.forEach(element => {
+        ordered_issues.forEach(element => {
             element.order = i
             i++
         });
 
-        IssueActions.bulkSaveIssues(result)
+        IssueActions.bulkSaveIssues(ordered_issues)
     }
     
     handleChange(event) {

@@ -77,21 +77,18 @@ class Issue extends Component {
     
     render() {
         return (
-            <div id={"issue-"+this.props.issue.id} className={this.props.issue.ownerId === this.props.userId ? "tile is-child box " : "tile is-child box retro-otherbox"}>
-                <div className="level">
+            <div id={"issue-"+this.props.issue.id} className={this.props.issue.ownerId === this.props.userId ? "tile is-child box retro-box" : "tile is-child box retro-otherbox"}>
+                <div className="level" style={{"margin-bottom": "0px"}}>
                     <div className="level-left"></div>
-
                     <div className="level-right">
                         <div className="level-item">
                             {
                                 (this.props.issue.ownerId === this.props.userId) && (
-                                    <div className="control">
-                                        <a className="has-text-grey-light" onClick={this.deleteEntry}>
-                                            <span className="icon">
-                                                <i className="fas fa-times"></i>
-                                            </span>
-                                        </a>
-                                    </div>
+                                    <a className="has-text-grey-light" onClick={this.deleteEntry}>
+                                        <span className="icon">
+                                            <i className="fas fa-times"></i>
+                                        </span>
+                                    </a>
                                 )
                             }
                         </div>
