@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import {withCookies} from 'react-cookie';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import v4 from 'uuid/v4';
 
 import Issue from '../components/Issue.jsx';
@@ -39,13 +40,16 @@ class Board extends Component {
         this.setBoard = this.setBoard.bind(this);
         this.setIssues = this.setIssues.bind(this);
         this.saveEntry = this.saveEntry.bind(this);
+
+        this.onDragEnd = this.onDragEnd.bind(this);
     }
-    
+
     componentWillMount() {
         BoardStore.on(BoardEventTypes.LOAD_BOARD_COMPLETED, this.setBoard);
         BoardStore.on(BoardEventTypes.ADD_BOARD_USER_COMPLETED, this.addBoardUserCompleted);
         IssueStore.on(IssueEventTypes.LOAD_ISSUES_COMPLETED, this.setIssues);
         IssueStore.on(IssueEventTypes.DELETE_ISSUE_COMPLETED, this.deleteIssueCompleted);
+        IssueStore.on(IssueEventTypes.BULKUPDATE_ISSUE_COMPLETED, this.setIssues);
     }
 
     componentWillUnmount() {
@@ -53,6 +57,7 @@ class Board extends Component {
         BoardStore.removeListener(BoardEventTypes.ADD_BOARD_USER_COMPLETED, this.addBoardUserCompleted);
         IssueStore.removeListener(IssueEventTypes.LOAD_ISSUES_COMPLETED, this.setIssues);
         IssueStore.removeListener(IssueEventTypes.DELETE_ISSUE_COMPLETED, this.deleteIssueCompleted);
+        IssueStore.removeListener(IssueEventTypes.BULKUPDATE_ISSUE_COMPLETED, this.setIssues);
     }
 
     componentDidMount() {
@@ -76,7 +81,12 @@ class Board extends Component {
     }
     
     setIssues() {
-        this.setState({issues: IssueStore.getIssues()});
+        const issues = IssueStore.getIssues()
+        const issues_sorted = issues.sort((firstEl, secondEl) => {
+            return firstEl.order - secondEl.order
+        })
+
+        this.setState({issues: issues_sorted});
     }
     
     saveEntry(id) {
@@ -126,6 +136,39 @@ class Board extends Component {
         }
         this.setState({issues:issues});
     }
+
+    onDragEnd(result) {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
+
+        var arrays = {}
+        this.state.board.states.map((state, ind) => {
+            arrays[state] = this.state.issues.filter((issue) => {
+                    return issue.state === state
+            })
+        })
+        
+        var [removed] = arrays[result.source.droppableId].splice(result.source.index, 1)
+        removed.state = result.destination.droppableId
+        arrays[result.destination.droppableId].splice(result.destination.index, 0, removed)
+
+        var result = []
+        this.state.board.states.map((state, ind) => {
+            arrays[state].forEach( element => {
+                result.push(element)
+            })
+        })
+
+        var i = 0
+        result.forEach(element => {
+            element.order = i
+            i++
+        });
+
+        IssueActions.bulkSaveIssues(result)
+    }
     
     handleChange(event) {
         const target = event.target;
@@ -145,6 +188,22 @@ class Board extends Component {
     }
     
     render() {
+        const getItemStyle = (isDragging, draggableStyle) => ({
+            // some basic styles to make the items look a bit nicer
+            userSelect: "none",
+          
+            // change background colour if dragging
+            //background: isDragging ? "lightgreen" : "None",
+            "padding-bottom": "20px",
+          
+            // styles we need to apply on draggables
+            ...draggableStyle
+          })
+          
+        const getListStyle = isDraggingOver => ({
+            background: isDraggingOver ? "lightblue" : "None",
+        });
+
         var home = window.location.protocol+'//'+window.location.hostname
         if (window.location.port) {
             home += ':' + window.location.port
@@ -161,46 +220,74 @@ class Board extends Component {
                         </ul>
                         </nav>
                         <div className="notification is-info has-text-centered">Go to <strong>{home}</strong> and join this retro by using the code <strong>{this.state.board.id}</strong></div>
-                        <div className="columns">
-                            {
-                                this.state.board.states && this.state.board.states.map((state, ind) => {
-                                    var issues = this.state.issues.filter((issue) => {
-                                        return (issue.state === state);
-                                    })
-                                    return (
-                                        <div key={state} className="column">
-                                            <div className="has-background-light">
-                                            <div className="level">
-                                                <div className="level-left">
-                                                    <div className="level-item">
-                                                        <p className="heading">{state}</p> 
-                                                    </div>
-                                                </div>
-                                                <div className="level-right">
-                                                    <div className="level-item">
-                                                        <button name={state} className="button is-primary is-small" onClick={this.addIssue}>Add</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                                    
-                                            <div className="section">
-                                                <div className="content">
-                                                    <div className="tile is-ancestor">
-                                                        <div className="tile is-parent is-vertical">
-                                                            {
-                                                                issues.map((issue, ind) => {
-                                                                    return (<Issue issue={issue} states={this.state.board.states} userId={this.state.userId} key={ind} name={issue.id} onChange={this.handleChange} onDelete={this.deleteEntry} onFocusOut={this.saveEntry}/>)
-                                                                })
-                                                            }
+                        <DragDropContext onDragEnd={this.onDragEnd}>
+                            <div className="columns">
+                                {
+                                    this.state.board.states && this.state.board.states.map((state, ind) => {
+                                        var issues = this.state.issues.filter((issue) => {
+                                            return (issue.state === state);
+                                        })
+                                        return (
+                                                <div key={state} className="column">
+                                                    <div className="has-background-light">
+                                                        <div className="level">
+                                                            <div className="level-left">
+                                                                <div className="level-item">
+                                                                    <p className="heading">{state}</p> 
+                                                                </div>
+                                                            </div>
+                                                            <div className="level-right">
+                                                                <div className="level-item">
+                                                                    <button name={state} className="button is-primary is-small" onClick={this.addIssue}>Add</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                                
+                                                        <div className="section">
+                                                            <div className="content">
+                                                                <div className="tile is-ancestor">
+                                                                    <div className="tile is-parent is-vertical">
+                                                                        <Droppable droppableId={state}>
+                                                                            {(provided, snapshot) => (
+                                                                                <div
+                                                                                    {...provided.droppableProps}
+                                                                                    ref={provided.innerRef}
+                                                                                    style={getListStyle(snapshot.isDraggingOver)}
+                                                                                    >
+                                                                                    {
+                                                                                        issues.map((issue, ind) => (
+                                                                                            <Draggable key={issue.id} draggableId={issue.id} index={ind}>
+                                                                                                {(provided, snapshot) => (
+                                                                                                    <div
+                                                                                                        ref={provided.innerRef}
+                                                                                                        {...provided.draggableProps}
+                                                                                                        {...provided.dragHandleProps}
+                                                                                                        style={getItemStyle(
+                                                                                                            snapshot.isDragging,
+                                                                                                            provided.draggableProps.style
+                                                                                                        )}
+                                                                                                        >
+                                                                                                            <Issue issue={issue} states={this.state.board.states} userId={this.state.userId} key={ind} name={issue.id} onChange={this.handleChange} onDelete={this.deleteEntry} onFocusOut={this.saveEntry}/>
+                                                                                                        </div>
+                                                                                                )}
+                                                                                            </Draggable>
+                                                                                        ))
+                                                                                    }
+                                                                                    {provided.placeholder}
+                                                                                </div>
+                                                                            )}
+                                                                        </Droppable>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            </div>
-                                        </div>)
-                                })
-                            }
-                        </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </DragDropContext>
                     </div>
                 </section>
             )

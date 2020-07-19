@@ -47,7 +47,7 @@ router.delete("/:issueId", (req, res) => {
 router.post("/", (req, res) => {
     var issue=req.body;
     if (!issue) {
-        throw new Error("A board object is missing here!")
+        throw new Error("An issue object is missing here!")
     }
     const id = issueStore.saveNewIssue(issue);
     res.send(
@@ -55,6 +55,23 @@ router.post("/", (req, res) => {
             id: id
         });
 });
+
+router.post("/bulk", (req, res) => {
+    var issues = req.body
+
+    if (!issues) {
+        throw new Error("An issues object is missing here!")
+    }
+
+    const result = issues.map(issue => {
+        issueStore.updateIssue(issue);
+    });
+
+    res.send({
+        ids: result
+    });
+
+})
 
 router.post("/:issueId", (req, res) => {
     var issue=req.body;
