@@ -230,7 +230,7 @@ class Board extends Component {
                                         return (
                                                 <div key={state} className="column">
                                                     <div className="has-background-light">
-                                                        <div className="level">
+                                                        <div className="level" style={{"margin-bottom": "0px"}}>
                                                             <div className="level-left">
                                                                 <div className="level-item">
                                                                     <p className="heading">{state}</p> 
@@ -243,7 +243,7 @@ class Board extends Component {
                                                             </div>
                                                         </div>
                                                                 
-                                                        <div className="section">
+                                                        <div className="section" style={{"padding-top": "1rem"}}>
                                                             <div className="content">
                                                                 <div className="tile is-ancestor">
                                                                     <div className="tile is-parent is-vertical">
